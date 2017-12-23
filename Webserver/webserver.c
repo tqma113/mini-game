@@ -7,37 +7,16 @@
 int start_web(int port){
     int server_fd = 0;
     int new_fd = 0;
-//    int port = 0;
     FILE *log_fd;
     pid_t client_fd = 0;
-    /*
-        struct sockaddr
-        {
-        　  unsigned short sa_family;
-            char sa_data[14];
-        };
-        struct sockaddr_in
-        {
-        　　 short int sin_family;
-        　　 unsigned short int sin_port;
-        　　 struct in_addr sin_addr;
-        　　 unsigned char sin_zero[8];
-        };
-    */
     struct sockaddr_in server_addr;
     struct sockaddr_in client_addr;
     socklen_t socketaddr_in_size = 0;
-//    if(argc < 2){
-//        printf("Have not set port...\n");
-//        exit(-1);
-//    }
-    //port = atoi(argv[1]);
-//    port = 8080;
     if(init_server(&server_fd, &server_addr, port) == -1){
         perror("Server start error!");
         exit(EXIT_FAILURE);
     }
-    if(init_log(log_fd) == -1){
+    if(init_log(&log_fd) == -1){
         perror("Log process cannot run!");
         return -1;
     }
@@ -55,14 +34,14 @@ int start_web(int port){
         } else if(client_fd == 0){
             //close(server_fd);
             printf("\npid %d process http session from %s : %d\n", getpid(), inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
-            //fprintf(log_fd, "pid %d process http session from %s : %d\n", getpid(), inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
+            fprintf(log_fd, "pid %d process http session from %s : %d\n", getpid(), inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
             printf("Start deal request %d of %s:%d\n", new_fd, inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
             if(deal_request(new_fd, &client_addr) == -1){
                 perror("Deal request failure!");
                 break;
             }
             printf("pid %d close connection to %s\n", getpid(), inet_ntoa(client_addr.sin_addr));
-            //fprintf(log_fd, "pid %d close connection to %s\n", getpid(), inet_ntoa(client_addr.sin_addr));
+            fprintf(log_fd, "pid %d close connection to %s\n", getpid(), inet_ntoa(client_addr.sin_addr));
             close(new_fd);
         } else {
             perror("Cannot create dealing process!");

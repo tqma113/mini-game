@@ -8,8 +8,6 @@
 #define ROOT_DIR "/home/tianqi/CLionProjects/Game/FrontPage"
 #define INDEX_FILE "/index.html"
 
-#define PORT 8080
-
 
 enum METHOD{
     GET = 1,

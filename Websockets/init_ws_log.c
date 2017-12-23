@@ -1,10 +1,10 @@
 //
-// Created by tianqi on 17-12-22.
+// Created by tianqi on 17-12-23.
 //
 
-#include "init_log.h"
+#include "init_ws_log.h"
 
-int init_log(FILE **log_fd){
+int init_ws_log(FILE **log_fd){
     char file[128] = "";
     strcpy(file, LOGFILE);
     if((*log_fd =fopen(file, "w")) == NULL){

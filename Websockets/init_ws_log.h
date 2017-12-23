@@ -1,5 +1,5 @@
 //
-// Created by tianqi on 17-12-22.
+// Created by tianqi on 17-12-23.
 //
 
 #ifndef GAME_INIT_LOG_H
@@ -8,8 +8,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#define LOGFILE "./log.txt"
+#define LOGFILE "./ws_log.txt"
 
-int init_log(FILE **log_fd);
+int init_ws_log(FILE **log_fd);
 
 #endif //GAME_INIT_LOG_H

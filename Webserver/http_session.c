@@ -6,9 +6,9 @@
 
 int deal_request(int new_fd, struct sockaddr_in *client_addr){
 
-    char recv_buf[READ_BUF_SIZE] = "";
-    char file_buf[FILE_BUF_SIZE] = "";
-    char send_buf[SEND_BUF_SIZE] = "";
+    char recv_buf[READ_BUF_SIZE + 1] = "";
+    char file_buf[FILE_BUF_SIZE + 1] = "";
+    char send_buf[SEND_BUF_SIZE + 1] = "";
     char dir[URI_MAX_SIZE] = "";
     int read_byte = 0;
     int file_byte = 0;
@@ -483,7 +483,7 @@ int get_dir_info(char *file_buf, char *dir, struct http_request *req){
     char port[8] = "";
     char d[64] = "";
     strncpy(d,dir + strlen(ROOT_DIR), strlen(dir) - strlen(ROOT_DIR));
-    sprintf(port, "%d", PORT);
+    sprintf(port, "%d", req->port);
     DIR *dirp = NULL;
     struct dirent * direntp;
 
