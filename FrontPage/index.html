@@ -18,6 +18,10 @@
 
         function login(){
             let name = $('#login-int-name').val();
+            if(name === ""){
+                alert("You need to input one user name!");
+                return;
+            }
             ws = new WebSocket(wsUrl + '/' + name);
 
             ws.onopen = function (event) {

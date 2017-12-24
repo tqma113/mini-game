@@ -23,6 +23,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 
+
 #define WEBSERVER_PORT 8080
 #define WEBSOCKET_PORT 9090
 
@@ -32,6 +33,7 @@
 #define PACKAGE_SIZE 5
 
 #define HEAD_MAX_SIZE 1024
+#define LINE_MAX_SIZE 1024
 
 #define TIME_OUT_SEC 10
 #define TIME_OUT_USEC 0
@@ -47,6 +49,8 @@
 #define SEND_BUF_SIZE 2097152     //4096 * 128
 
 #define URI_MAX_SIZE 128
+
+#define GUID "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 
 enum METHOD{
     GET = 1,
@@ -102,6 +106,14 @@ struct ws_request{
     int port;
     char address[16];
     char uri[4096];
+    char host[32];
+    bool connection_is_up;
+    bool upgrade_is_ws;
+    char origin[32];
+    int sec_websocket_version;
+    char accept_language[32];
+    char sec_websocket_key[64];
+    char sec_websocket_extensions[32];
 };
 
 #endif //GAME_DATA_STRUCT_H
