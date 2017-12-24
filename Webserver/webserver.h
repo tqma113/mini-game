@@ -5,13 +5,7 @@
 #ifndef GAME_WEBSERVER_H
 #define GAME_WEBSERVER_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/socket.h>
-#include <stdbool.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
+#include "../data_struct.h"
 
 #include "init_web_server.h"
 #include "init_log.h"

@@ -5,12 +5,7 @@
 #ifndef GAME_INIT_WEBSOCKET_SERVER_H
 #define GAME_INIT_WEBSOCKET_SERVER_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <netinet/in.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/socket.h>
+#include "../data_struct.h"
 
 #define PACKAGE_SIZE 5
 

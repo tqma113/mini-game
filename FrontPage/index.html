@@ -17,7 +17,8 @@
         let ws;
 
         function login(){
-            ws = new WebSocket(wsUrl);
+            let name = $('#login-int-name').val();
+            ws = new WebSocket(wsUrl + '/' + name);
 
             ws.onopen = function (event) {
                 connected();

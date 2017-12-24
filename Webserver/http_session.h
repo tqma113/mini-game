@@ -5,35 +5,8 @@
 #ifndef GAME_HTTP_SESSION_H
 #define GAME_HTTP_SESSION_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <stdbool.h>
-#include <netinet/in.h>
-#include <netinet/ip.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include <sys/stat.h>
-#include <sys/select.h>
-#include <time.h>
-#include <string.h>
-#include "data_struct.h"
-#include <sys/types.h>
-#include <dirent.h>
 
-#define TIME_OUT_SEC 10
-#define TIME_OUT_USEC 0
-
-#define CATALOGUE "Catalogue"
-
-#define READ_BUF_SIZE 4096       //1k = 4096
-#define FILE_BUF_SIZE 1048576     //4096 * 64
-#define SEND_BUF_SIZE 2097152     //4096 * 128
-
-#define URI_MAX_SIZE 128
+#include "../data_struct.h"
 
 int deal_request(int new_fd, struct sockaddr_in *client_addr);
 

@@ -5,8 +5,6 @@
 #ifndef GAME_GAME_H
 #define GAME_GAME_H
 
-#define WEBSERVER_PORT 8080
-
-#define WEBSOCKET_PORT 9090
+#include "data_struct.h"
 
 #endif //GAME_GAME_H

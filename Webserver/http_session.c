@@ -140,8 +140,8 @@ int is_http_request(char *request, struct http_request* req){
         }
         strncpy(req->file, req->uri, (size_t)base);
     } else {
-        strcpy(req->uri, CATALOGUE);
-        strcpy(req->file, "");
+        strcpy(req->uri, INDEX_FILE);
+        strcpy(req->file, INDEX_FILE);
     }
 
     if(is_right_method(&(req->method), me) == -1){
@@ -193,7 +193,7 @@ int is_right_protocol(char *protocol){
 }
 
 void div_type(struct http_request *req) {
-    if(strcmp(req->uri, CATALOGUE) == 0){
+    if(strcmp(req->uri, "/") == 0){
         req->f_type = ROOT;
         return;
     }

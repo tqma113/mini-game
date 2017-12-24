@@ -6,7 +6,7 @@
 
 int init_ws_log(FILE **log_fd){
     char file[128] = "";
-    strcpy(file, LOGFILE);
+    strcpy(file, WSLOGFILE);
     if((*log_fd =fopen(file, "w")) == NULL){
         return -1;
     }
