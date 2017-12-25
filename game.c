@@ -6,12 +6,12 @@ int main() {
     int websocket_fd = 0;
     int game_fd = 0;
 
-    if((game_fd = fork()) == 0){
-        if(start_game() == -1){
-            printf("Game server start failure!\n");
-            exit(EXIT_FAILURE);
-        }
-    }
+//    if((game_fd = fork()) == 0){
+//        if(start_game() == -1){
+//            printf("Game server start failure!\n");
+//            exit(EXIT_FAILURE);
+//        }
+//    }
 
     if((webserver_fd = fork()) == 0){
         if(start_web(WEBSERVER_PORT) == -1){
@@ -26,8 +26,8 @@ int main() {
             exit(EXIT_FAILURE);
         }
     }
-
     wait(NULL);
+    printf("Some one server has exited!\n");
     kill(0, SIGTERM);
     printf("Success!\n");
 }

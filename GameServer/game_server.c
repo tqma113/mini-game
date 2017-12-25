@@ -6,6 +6,7 @@
 
 
 int start_game(){
+    printf("Start game server...\n");
     int game_infor[64];
 
     if(init_info(game_infor) == -1){

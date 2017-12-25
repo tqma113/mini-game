@@ -7,8 +7,6 @@
 
 #include "../data_struct.h"
 
-#include "websocket_session.h"
-
 #include "base64.h"
 
 #include "sha1.h"

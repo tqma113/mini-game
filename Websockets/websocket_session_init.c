@@ -3,7 +3,7 @@
 //
 
 #include "websocket_session_init.h"
-
+#include "session.h"
 
 int deal_ws_request(int new_fd, struct sockaddr_in *client_addr){
     char recv_buf[HEAD_MAX_SIZE + 1] = "";
@@ -58,7 +58,11 @@ int deal_ws_request(int new_fd, struct sockaddr_in *client_addr){
                             printf("Send WebSocket response failure!\n");
                             return -1;
                         }
-
+                        sleep(10);
+                        if(webSocket_send(req->client_socket, "Hello", 6, false, WCT_TXTDATA) <= 0){
+                            printf("Send failure!\n");
+                        }
+                        printf("Success\n");
                         return 1;
                     }
                 } else {
