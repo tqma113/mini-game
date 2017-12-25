@@ -7,6 +7,8 @@
 
 #include "../data_struct.h"
 
+int webSocket_session(int fd, int write_fd, int read_fd);
+
 int webSocket_send(int fd, unsigned char *data, unsigned int dataLen, bool mod, Websocket_CommunicationType type);
 
 int webSocket_recv(int fd, unsigned char *data, unsigned int dataMaxLen);

@@ -25,11 +25,12 @@
             ws = new WebSocket(wsUrl + '/Game/' + name);
 
             ws.onopen = function (event) {
+                alert("Connect success!" + event.currentTarget.url);
                 connected();
             };
 
-            ws.onmessage = function (exent) {
-                alert(exent);
+            ws.onmessage = function (event) {
+                alert(event.data);
             };
 
             ws.onclose = function (event) {
@@ -37,10 +38,8 @@
             };
             
             ws.onerror = function (event) {
-                console.log(event);
                 alert("Connection error! " + event.currentTarget.url);
                 ws.close();
-                logout();
             };
         }
 

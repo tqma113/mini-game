@@ -6,12 +6,17 @@ int main() {
     int websocket_fd = 0;
     int game_fd = 0;
 
-//    if((game_fd = fork()) == 0){
-//        if(start_game() == -1){
-//            printf("Game server start failure!\n");
-//            exit(EXIT_FAILURE);
-//        }
-//    }
+    int game_pipe[2];
+    int webSocket_pipe[2];
+    pipe(game_pipe);
+    pipe(webSocket_pipe);
+
+    if((game_fd = fork()) == 0){
+        if(start_game(game_pipe[1], webSocket_pipe[0]) == -1){
+            printf("Game server start failure!\n");
+            exit(EXIT_FAILURE);
+        }
+    }
 
     if((webserver_fd = fork()) == 0){
         if(start_web(WEBSERVER_PORT) == -1){
@@ -21,7 +26,7 @@ int main() {
     }
 
     if((websocket_fd = fork()) == 0){
-        if(start_websocket(WEBSOCKET_PORT) == -1){
+        if(start_websocket(WEBSOCKET_PORT, webSocket_pipe[1], game_pipe[0]) == -1){
             printf("Websocket server start failure!\n");
             exit(EXIT_FAILURE);
         }

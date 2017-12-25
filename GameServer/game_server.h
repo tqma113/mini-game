@@ -8,6 +8,6 @@
 #include "init_info.h"
 #include "../data_struct.h"
 
-int start_game();
+int start_game(int write_fd, int read_fd);
 
 #endif //GAME_GAME_SERVER_H

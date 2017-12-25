@@ -5,7 +5,7 @@
 #include "websocket_session_init.h"
 #include "session.h"
 
-int deal_ws_request(int new_fd, struct sockaddr_in *client_addr){
+int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int write_fd, int read_fd){
     char recv_buf[HEAD_MAX_SIZE + 1] = "";
     char send_buf[HEAD_MAX_SIZE + 1] = "";
 
@@ -58,11 +58,10 @@ int deal_ws_request(int new_fd, struct sockaddr_in *client_addr){
                             printf("Send WebSocket response failure!\n");
                             return -1;
                         }
-                        sleep(10);
-                        if(webSocket_send(req->client_socket, "Hello", 6, false, WCT_TXTDATA) <= 0){
-                            printf("Send failure!\n");
+                        if(webSocket_session(new_fd, write_fd, read_fd)){
+                            printf("WebSocket session start failure!\n");
+                            return -1;
                         }
-                        printf("Success\n");
                         return 1;
                     }
                 } else {
@@ -205,13 +204,13 @@ int analysis_ws_info(char *request, int index, struct ws_request *req){
 }
 
 int do_ws_response(struct ws_request *req){
-    char head[5][256];
+    char head[4][256];
     char res[HEAD_MAX_SIZE +1] = "";
     if(get_ws_first_line(head[0]) == -1){
         printf("First line error\n");
         return -1;
     }
-    if(get_upgreade_line(head[1]) == -1){
+    if(get_upgreade_line(head[3]) == -1){
         printf("Upgrade line error\n");
         return -1;
     }
@@ -219,19 +218,14 @@ int do_ws_response(struct ws_request *req){
         printf("Connection line error\n");
         return -1;
     }
-    if(get_sec_WA_line(head[3], req->sec_websocket_key) == -1){
+    if(get_sec_WA_line(head[1], req->sec_websocket_key) == -1){
         printf("Sec-WebSocket-Accept line error\n");
         return -1;
     }
-    if(get_sec_WP_line(head[4], req->uri) == -1){
-        printf("Sec-WebSocket-Protocol line error\n");
-        return -1;
-    }
 
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 4; i++){
         strcat(res, head[i]);
     }
-
     if(send(req->client_socket, res, strlen(res), 0) <= -1){
         printf("%s", "Client close the connection!\n");
         return 1;
@@ -247,7 +241,7 @@ int get_ws_first_line(char *f_line){
 }
 
 int get_upgreade_line(char *f_line){
-    char line[64] = "Upgrade: websocket\r\n";
+    char line[64] = "Upgrade: websocket\r\n\r\n";
     strcpy(f_line, line);
     return 1;
 }
@@ -307,12 +301,4 @@ int webSocket_buildRespondShakeKey(unsigned char *acceptKey, unsigned int accept
     free(sha1Data);
     free(clientKey);
     return n;
-}
-
-int get_sec_WP_line(char *f_line, char *name){
-    char line[64] = "Sec-WebSocket-Protocol: ";
-    strcat(line, name+1);
-    strcat(line, "\r\n");
-    strcpy(f_line, line);
-    return 1;
 }

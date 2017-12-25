@@ -7,7 +7,7 @@
 #include "websocket_session_init.h"
 #include "websocket_server.h"
 
-int start_websocket(int port){
+int start_websocket(int port, int write_fd, int read_fd){
     int server_fd = 0;
     int new_fd = 0;
     FILE *log_fd;
@@ -40,7 +40,7 @@ int start_websocket(int port){
             printf("\npid %d process Websocket session from %s : %d\n", getpid(), inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
             fprintf(log_fd, "pid %d process Websocket session from %s : %d\n", getpid(), inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
             printf("Start deal request %d of %s:%d\n", new_fd, inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
-            if(deal_ws_request(new_fd, &client_addr) == -1){
+            if(deal_ws_request(new_fd, &client_addr, write_fd, read_fd) == -1){
                 perror("Deal request failure!");
                 break;
             }

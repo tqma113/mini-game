@@ -50,6 +50,8 @@
 #define TIME_OUT_SEC 10
 #define TIME_OUT_USEC 0
 
+#define MSG_MAX_SIZE 64
+
 #define WSLOGFILE "./ws_log.txt"
 
 #define LOGFILE "./log.txt"
