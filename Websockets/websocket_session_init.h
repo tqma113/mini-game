@@ -7,7 +7,11 @@
 
 #include "../data_struct.h"
 
+#include "websocket_session.h"
+
 #include "base64.h"
+
+#include "sha1.h"
 
 int deal_ws_request(int new_fd, struct sockaddr_in *client_addr);
 
@@ -32,6 +36,8 @@ int get_upgreade_line(char *f_line);
 int get_connection_line(char *f_line);
 
 int get_sec_WA_line(char *f_line, char *key);
+
+int webSocket_buildRespondShakeKey(unsigned char *acceptKey, unsigned int acceptKeyLen, unsigned char *respondKey);
 
 int get_sec_WP_line(char *f_line, char *name);
 

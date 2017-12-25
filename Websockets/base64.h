@@ -5,11 +5,15 @@
 #ifndef GAME_BASE64_H
 #define GAME_BASE64_H
 
-#include <stdlib.h>
-#include <string.h>
+#include "../data_struct.h"
+//
+//int base64_encode(char *in_str, int in_len, char *out_str);
 
-unsigned char *base64_encode(unsigned char *str);
 
-unsigned char *bae64_decode(unsigned char *code);
+int base64_encode( const unsigned char *bindata, char *base64, int binlength);
+
+//unsigned char *base64_encode(unsigned char *str);
+//
+//unsigned char *bae64_decode(unsigned char *code);
 
 #endif //GAME_BASE64_H

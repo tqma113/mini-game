@@ -4,7 +4,6 @@
 
 #include "websocket_session_init.h"
 
-#include <openssl/sha.h>
 
 int deal_ws_request(int new_fd, struct sockaddr_in *client_addr){
     char recv_buf[HEAD_MAX_SIZE + 1] = "";
@@ -50,6 +49,7 @@ int deal_ws_request(int new_fd, struct sockaddr_in *client_addr){
                         perror("Read request failure!");
                         return -1;
                     } else {
+                        printf("%s\n",recv_buf);
                         if(is_ws_request(recv_buf,req) == -1){
                             printf("WebSocket request is illegal!\n");
                             return -1;
@@ -58,6 +58,7 @@ int deal_ws_request(int new_fd, struct sockaddr_in *client_addr){
                             printf("Send WebSocket response failure!\n");
                             return -1;
                         }
+
                         return 1;
                     }
                 } else {
@@ -153,7 +154,7 @@ int analysis_ws_info(char *request, int index, struct ws_request *req){
         }
         if(strstr(line_buf, "Connection") != NULL){
             sscanf(line_buf, "%s%s", left, right);
-            if(strcmp(right, "Upgrade") == 0){
+            if(strstr(line_buf, "Upgrade") != NULL){
                 req->connection_is_up = true;
             } else {
                 req->connection_is_up = false;
@@ -231,7 +232,7 @@ int do_ws_response(struct ws_request *req){
         printf("%s", "Client close the connection!\n");
         return 1;
     }
-    printf("Send response success!\n");
+    printf("Send response success!\n%s",res);
     return 1;
 }
 
@@ -256,16 +257,52 @@ int get_connection_line(char *f_line){
 int get_sec_WA_line(char *f_line, char *key){
     char line[256] = "Sec-WebSocket-Accept: ";
     char accpet[256] = "";
-    char combine[256];
-    char sha_data[SHA_DIGEST_LENGTH + 1] = "";
-    memcpy(combine, key, strlen(key));
-    memcpy(combine + strlen(key), GUID, strlen(GUID));
-    SHA1((unsigned char *)&combine, strlen(combine), (unsigned char *)&sha_data);
-    strcpy(accpet, (const char *)base64_encode((unsigned char *)sha_data));
-    memcpy(line + strlen(line), accpet, sizeof(accpet));
-    memcpy(f_line, line, sizeof(line));
+    int accept_len = 0;
+    if((accept_len = webSocket_buildRespondShakeKey(
+            (unsigned char *)key,
+            (unsigned int)strlen(key),
+            (unsigned char *)accpet)) == 0){
+        printf("The key is error!\n");
+        return -1;
+    }
+    memcpy(line + strlen(line), accpet, accept_len);
+    memcpy(line + strlen(line), "\r\n", 2);
+    memcpy(f_line, line, accept_len + 24);
 
     return 1;
+}
+
+int webSocket_buildRespondShakeKey(unsigned char *acceptKey, unsigned int acceptKeyLen, unsigned char *respondKey) {
+    char *clientKey;
+    char *sha1DataTemp;
+    char *sha1Data;
+    int i, n;
+    const char GUID[] = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+    unsigned int GUIDLEN;
+
+    if(acceptKey == NULL)
+        return 0;
+    GUIDLEN = sizeof(GUID);
+    clientKey = (char *)calloc(1, sizeof(char)*(acceptKeyLen + GUIDLEN + 10));
+    memset(clientKey, 0, (acceptKeyLen + GUIDLEN + 10));
+    //
+    memcpy(clientKey, acceptKey, acceptKeyLen);
+    memcpy(&clientKey[acceptKeyLen], GUID, GUIDLEN);
+    clientKey[acceptKeyLen + GUIDLEN] = '\0';
+    //
+    sha1DataTemp = sha1_hash(clientKey);
+    n = strlen(sha1DataTemp);
+    sha1Data = (char *)calloc(1, n / 2 + 1);
+    memset(sha1Data, 0, n / 2 + 1);
+    //
+    for(i = 0; i < n; i += 2)
+        sha1Data[ i / 2 ] = htoi(sha1DataTemp, i, 2);
+    n = base64_encode((const unsigned char *)sha1Data, (char *)respondKey, (n / 2));
+    //
+    free(sha1DataTemp);
+    free(sha1Data);
+    free(clientKey);
+    return n;
 }
 
 int get_sec_WP_line(char *f_line, char *name){

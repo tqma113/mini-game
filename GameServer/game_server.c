@@ -3,3 +3,14 @@
 //
 
 #include "game_server.h"
+
+
+int start_game(){
+    int game_infor[64];
+
+    if(init_info(game_infor) == -1){
+        printf("Game infor inti failure!\n");
+        return -1;
+    }
+    return 1;
+}
