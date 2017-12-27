@@ -26,7 +26,6 @@ int webSocket_session(int fd, int write_fd, int read_fd){
             }
         }
     }
-
     while(true){
         memset(server_buf, 0, MSG_MAX_SIZE);
         if((server_byte = (int)read(read_fd, server_buf, MSG_MAX_SIZE)) < 0){

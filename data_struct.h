@@ -69,6 +69,7 @@
 //#define GUID "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 
 //struct PIPE *pipes[MAX_USER];
+#define INFOR[64] {1,1,0,1,2,3,0,2,3,1,0,2,1,3,2,0,2,1,2,3,2,1,2,2,3,0,0,2,0,2,2,3,012,3,0,2,3,0,1,2,0,3,2,0,2,3,0,2,3,0,2,0,0,1,0,3,0,1,2,0,3,0,1,2,0,3,0,1,2,2,0,3,0,1,0,2,2,0,3,1,0,0,3,0,1,2,2,0,3,0,1,2,2,0,3,3,0,1,2,0,3,0,12,03,1,0,2,3,0}
 
 enum METHOD{
     GET = 1,
@@ -148,6 +149,8 @@ typedef enum{
 struct PIPE{
     int pipe[2];
     bool useState;
+    char name[16];
+    int level;
 };
 
 #endif //GAME_DATA_STRUCT_H

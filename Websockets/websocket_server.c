@@ -43,14 +43,13 @@ int start_websocket(int port, int shm_id, int write_fd){
             close(server_fd);
             return -1;
         }
+        printf("Pipe is prepared!\n");
         if((client_fd = fork()) > 0){
             close(new_fd);
             continue;
         } else if(client_fd == 0){
             for(i = 0; i < 20; i++){
-
                 if(pipes[i].useState == false){
-                    pipe(pipes[i].pipe);
                     pipes[i].useState = true;
                     break;
                 }
@@ -60,7 +59,7 @@ int start_websocket(int port, int shm_id, int write_fd){
                 fprintf(log_fd, "pid %d process Websocket session from %s : %d\n", getpid(), inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
                 printf("Start deal request %d of %s:%d\n", new_fd, inet_ntoa(client_addr.sin_addr), htons(client_addr.sin_port));
                 printf("Pipe: %d\n", pipes[i].pipe[1]);
-                switch (deal_ws_request(new_fd, &client_addr, pipes[i].pipe[0], write_fd)){
+                switch (deal_ws_request(new_fd, &client_addr, shm_id, i, write_fd)){
                     case -1:
                         perror("Deal request failure!");
                         break;
@@ -71,6 +70,8 @@ int start_websocket(int port, int shm_id, int write_fd){
                         break;
                 }
                 pipes[i].useState = false;
+                pipes[i].level = 0;
+                strcpy(pipes[i].name, "");
                 printf("pid %d close Websocket connection to %s\n", getpid(), inet_ntoa(client_addr.sin_addr));
                 fprintf(log_fd, "pid %d close Websocket connection to %s\n", getpid(), inet_ntoa(client_addr.sin_addr));
                 close(new_fd);

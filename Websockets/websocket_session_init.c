@@ -5,7 +5,17 @@
 #include "websocket_session_init.h"
 #include "session.h"
 
-int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int read_fd, int write_fd){
+int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int shm_id, int i, int write_fd){
+    struct PIPE *pipes;
+    printf("%d", shm_id);
+    pipes = (struct PIPE *)shmat(shm_id, NULL, 0);
+    if(pipes == -1){
+        printf("Cannot link sharing memory to this process!(Game server)\n");
+        return -1;
+    }
+
+    int read_fd = pipes[i].pipe[0];
+
     char recv_buf[HEAD_MAX_SIZE + 1] = "";
     char send_buf[HEAD_MAX_SIZE + 1] = "";
 
@@ -58,6 +68,10 @@ int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int read_fd, in
                             printf("Send WebSocket response failure!\n");
                             return -1;
                         }
+                        if(analyGame(req->uri, pipes[i].name, pipes[i].level)  == -1){
+                            printf("Game name analysis error\n");
+                            return -1;
+                        }
                         switch (webSocket_session(new_fd, write_fd, read_fd)){
                             case 1:
                                 printf("WebSocket session is close!\n");
@@ -91,9 +105,25 @@ int _readline(char* allbuf,int level,char* linebuf){
     return -1;
 }
 
+int analyGame(char *uri, char *name, int level){
+    int index_N = 0;
+    int index_L;
+    char l[8];
+    while(uri[index_N] != '?'){
+        index_N++;
+    }
+    index_L = index_N;
+    while(uri[index_L] != '&'){
+        index_L++;
+    }
+    strncpy(name, uri + index_N + 1, (size_t)(index_L - index_N));
+    strncpy(l, uri + index_L + 1, 4);
+    sprintf(l, "%d", level);
+    return 1;
+}
 
 int is_ws_request(char *request, struct ws_request* req){
-    char line_buf[LINE_MAX_SIZE];
+    char line_buf[LINE_MAX_SIZE] = "";
     int read_index = 0;
 
     if((read_index = _readline(request, read_index, line_buf)) == -1){
@@ -128,7 +158,7 @@ int is_http_head(char *f_line, struct ws_request *req){
 
     if(is_right_ws_protocol(req->protocol) == -1){
         req->state = 505;
-        printf("WebSocket request file has wrong protocol!");
+        printf("WebSocket request file has wrong protocol!:%s\n",req->protocol);
         return -1;
     }
 

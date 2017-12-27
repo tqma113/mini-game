@@ -13,8 +13,7 @@ int start_game(){
     struct PIPE pipes[MAX_USER];
     for(int i = 0; i < MAX_USER; i++){
         //pipes[i]= (struct PIPE *)malloc(sizeof(struct PIPE));
-        pipes[i].pipe[0] = 0;
-        pipes[i].pipe[1] = 0;
+        pipe(pipes[i].pipe);
         pipes[i].useState = false;
     }
 
@@ -24,7 +23,6 @@ int start_game(){
         printf("Sharing memory cannot been created!\n");
         return -1;
     }
-    printf("%d", shm_id);
     shared = (struct PIPE *)shmat(shm_id, NULL, 0);
     if(shared == -1){
         printf("Cannot link sharing memory to this process!(Game server)\n");
@@ -51,25 +49,14 @@ int start_game(){
             return -1;
         }
     }
-    if((listen_fd = fork()) == 0){
-        while(true){
-            if(read(game_pipe[0], msg, MSG_MAX_SIZE) <= 0){
-                printf("Pipe between webSocket and Game server is broken!\n");
-                return -1;
-            }
-            printf("%s\n", msg);
-        }
-    }
+
+
+
     while(true){
-        sleep(5);
-        for(int i = 0; i < MAX_USER; i++){
-            printf("\n%d : %d\n", i, (int)shared[i].useState);
-            if(shared[i].useState == true){
-                if(write(shared[i].pipe[1], "<Game> <mtq> 123", strlen("<Game> <mtq> 123")) == -1){
-                    printf("The server pipe is broken!\n");
-                    return -1;
-                }
-            }
+        if(read(game_pipe[0], msg, MSG_MAX_SIZE) <= 0){
+            printf("Pipe between webSocket and Game server is broken!\n");
+            return -1;
         }
+        printf("%s\n", msg);
     }
 }
