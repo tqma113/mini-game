@@ -7,7 +7,8 @@
 
 #include "init_info.h"
 #include "../data_struct.h"
+#include "../Websockets/websocket_server.h"
 
-int start_game(int write_fd, int read_fd);
+int start_game();
 
 #endif //GAME_GAME_SERVER_H

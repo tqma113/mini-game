@@ -18,7 +18,7 @@ int webSocket_session(int fd, int write_fd, int read_fd){
             memset(client_buf, 0, MSG_MAX_SIZE);
             if((client_byte = webSocket_recv(fd, client_buf, MSG_MAX_SIZE)) < 0){
                 printf("Client connect is broken!\n");
-                return -1;
+                return 1;
             }
             if(write(write_fd, client_buf, MSG_MAX_SIZE) == -1){
                 printf("Websocket pipe is broken!\n");

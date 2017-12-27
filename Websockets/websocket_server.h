@@ -7,6 +7,6 @@
 
 #include "../data_struct.h"
 
-int start_websocket(int port, int write_fd, int read_fd);
+int start_websocket(int port, int shm_id, int write_fd);
 
 #endif //GAME_WEBSOCKET_SERVER_H

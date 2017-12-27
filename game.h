@@ -10,6 +10,5 @@
 #include "data_struct.h"
 #include "GameServer/game_server.h"
 #include "Webserver/webserver.h"
-#include "Websockets/websocket_server.h"
 
 #endif //GAME_GAME_H

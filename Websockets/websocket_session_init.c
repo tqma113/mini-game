@@ -5,7 +5,7 @@
 #include "websocket_session_init.h"
 #include "session.h"
 
-int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int write_fd, int read_fd){
+int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int read_fd, int write_fd){
     char recv_buf[HEAD_MAX_SIZE + 1] = "";
     char send_buf[HEAD_MAX_SIZE + 1] = "";
 
@@ -49,7 +49,7 @@ int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int write_fd, i
                         perror("Read request failure!");
                         return -1;
                     } else {
-                        printf("%s\n",recv_buf);
+                        printf("\n%s\n",recv_buf);
                         if(is_ws_request(recv_buf,req) == -1){
                             printf("WebSocket request is illegal!\n");
                             return -1;
@@ -58,9 +58,16 @@ int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int write_fd, i
                             printf("Send WebSocket response failure!\n");
                             return -1;
                         }
-                        if(webSocket_session(new_fd, write_fd, read_fd)){
-                            printf("WebSocket session start failure!\n");
-                            return -1;
+                        switch (webSocket_session(new_fd, write_fd, read_fd)){
+                            case 1:
+                                printf("WebSocket session is close!\n");
+                                return 1;
+                            case -1:
+                                printf("Pipe is broken\n");
+                                return -1;
+                            default:
+                                printf("Unknow error!\n");
+                                return -1;
                         }
                         return 1;
                     }

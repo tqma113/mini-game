@@ -31,7 +31,7 @@
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 
-#include <pthread.h>    // 使用多线程
+#include <sys/shm.h>    //共享内存
 
 
 
@@ -64,7 +64,11 @@
 
 #define URI_MAX_SIZE 128
 
+#define MAX_USER 20
+
 //#define GUID "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
+
+//struct PIPE *pipes[MAX_USER];
 
 enum METHOD{
     GET = 1,
@@ -140,4 +144,10 @@ typedef enum{
     WCT_ERR = -1,
     WCT_NULL = 0
 }Websocket_CommunicationType;
+
+struct PIPE{
+    int pipe[2];
+    bool useState;
+};
+
 #endif //GAME_DATA_STRUCT_H

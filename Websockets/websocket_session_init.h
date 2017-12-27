@@ -11,7 +11,7 @@
 
 #include "sha1.h"
 
-int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int write_fd, int read_fd);
+int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int read_fd, int write_fd);
 
 int is_ws_request(char *request, struct ws_request* req);
 
