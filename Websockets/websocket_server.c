@@ -13,7 +13,7 @@ int start_websocket(int port, int shm_id, int write_fd){
     struct PIPE *pipes;
     printf("%d", shm_id);
     pipes = (struct PIPE *)shmat(shm_id, NULL, 0);
-    if(pipes == -1){
+    if(pipes == (struct PIPE *)-1){
         printf("Cannot link sharing memory to this process!(Game server)\n");
         return -1;
     }
@@ -72,6 +72,8 @@ int start_websocket(int port, int shm_id, int write_fd){
                 pipes[i].useState = false;
                 pipes[i].level = 0;
                 strcpy(pipes[i].name, "");
+                memset(pipes[i].score, 0, MAX_SONG);
+                pipes[i].index = 0;
                 printf("pid %d close Websocket connection to %s\n", getpid(), inet_ntoa(client_addr.sin_addr));
                 fprintf(log_fd, "pid %d close Websocket connection to %s\n", getpid(), inet_ntoa(client_addr.sin_addr));
                 close(new_fd);

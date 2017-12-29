@@ -13,7 +13,7 @@
 
 int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int read_fd, int i, int write_fd);
 
-int analyGame(char *uri, char *name, int level);
+int analyGame(char *uri, char *name, int *level);
 
 int is_ws_request(char *request, struct ws_request* req);
 

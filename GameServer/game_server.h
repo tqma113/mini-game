@@ -11,4 +11,8 @@
 
 int start_game();
 
+int deal_info(char info[32], struct PIPE *pipes);
+
+int get_rand_char(char *info, int level);
+
 #endif //GAME_GAME_SERVER_H

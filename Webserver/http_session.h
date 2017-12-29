@@ -10,6 +10,8 @@
 
 int deal_request(int new_fd, struct sockaddr_in *client_addr);
 
+int send_file_msg(int send_fd, char *sendbuf, char *file);
+
 int is_http_request(char *request, struct http_request* req);
 
 int is_right_method(enum METHOD *meth, char *method);

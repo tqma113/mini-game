@@ -78,10 +78,11 @@ body,html{
 .right{
     opacity: .7;
     order: 3;
-    flex-grow: 1;
+    flex-grow: 0.3;
     background-color: #fffc51;
     height: 100%;
     overflow: scroll;
+    text-align: center;
 }
 .figure{
     background-color: #fffc51;
@@ -178,4 +179,55 @@ body,html{
     border-radius: 3px;
     font-size: 1.2em;
     background-color: white;
+}
+.text{
+    border: none;
+    height: 90%;
+    width: 65%;
+    font-weight: bold;
+    font-size: 18px;
+}
+#score{
+    margin-left: 17.5%;
+}
+#chat{
+    margin-left: 17.5%;
+}
+.text>div{
+    width: 100%;
+    text-align: left;
+}
+.text>div>.name{
+    color: #006fff;
+    text-decoration: underline;
+    height: 40px;
+}
+.text>div>.info{
+    color: #00b3ff;
+    height: 40px;
+}
+#char-input{
+    width: 200px;
+    height: 40px;
+    font-size: 25px;
+    color: #00b3ff;
+    border: none;
+    border-radius: 3px;
+    z-index: 999999999999;
+}
+.chat{
+    z-index: 999999999999;
+    width: 100%;
+
+    height: 40px;
+    text-align: center;
+    vertical-align: center;
+}
+.chat>button{
+    z-index: 999999999999;
+    height: 38px;
+    width: 70px;
+    background-color: #00b3ff;
+    color: white;
+    font-size: 20px;
 }

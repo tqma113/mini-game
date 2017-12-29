@@ -50,7 +50,7 @@
 #define TIME_OUT_SEC 10
 #define TIME_OUT_USEC 0
 
-#define MSG_MAX_SIZE 64
+#define MSG_MAX_SIZE 4096
 
 #define WSLOGFILE "./ws_log.txt"
 
@@ -59,17 +59,22 @@
 #define CATALOGUE "Catalogue"
 
 #define READ_BUF_SIZE 4096       //1k = 4096
-#define FILE_BUF_SIZE 1048576     //4096 * 64
+#define FILE_BUF_SIZE 1048576     //4096 * 64*64
 #define SEND_BUF_SIZE 2097152     //4096 * 128
 
 #define URI_MAX_SIZE 128
 
 #define MAX_USER 20
 
+#define MAX_SONG 50
+
 //#define GUID "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 
 //struct PIPE *pipes[MAX_USER];
-#define INFOR[64] {1,1,0,1,2,3,0,2,3,1,0,2,1,3,2,0,2,1,2,3,2,1,2,2,3,0,0,2,0,2,2,3,012,3,0,2,3,0,1,2,0,3,2,0,2,3,0,2,3,0,2,0,0,1,0,3,0,1,2,0,3,0,1,2,0,3,0,1,2,2,0,3,0,1,0,2,2,0,3,1,0,0,3,0,1,2,2,0,3,0,1,2,2,0,3,3,0,1,2,0,3,0,12,03,1,0,2,3,0}
+
+#define INFOR_SIZE 128
+
+#define PER_SORCE 200
 
 enum METHOD{
     GET = 1,
@@ -93,7 +98,8 @@ enum MIMETYPE{
     GIF,
     MP4,
     MP3,
-    TXT
+    TXT,
+    FLAC
 };
 
 enum FILETYPE{
@@ -151,6 +157,8 @@ struct PIPE{
     bool useState;
     char name[16];
     int level;
+    int score[MAX_SONG];
+    int index;
 };
 
 #endif //GAME_DATA_STRUCT_H

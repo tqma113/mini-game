@@ -4,10 +4,9 @@
 
 #include "session.h"
 
-int webSocket_session(int fd, int write_fd, int read_fd){
+int webSocket_session(int fd, int write_fd, int read_fd, int i){
     int listen_client_fd = 0;
 
-    char client_buf[MSG_MAX_SIZE];
     char server_buf[MSG_MAX_SIZE];
 
     int client_byte = 0;
@@ -15,28 +14,35 @@ int webSocket_session(int fd, int write_fd, int read_fd){
 
     if((listen_client_fd = fork()) == 0){
         while(true){
+            char client_buf[MSG_MAX_SIZE];
             memset(client_buf, 0, MSG_MAX_SIZE);
             if((client_byte = webSocket_recv(fd, client_buf, MSG_MAX_SIZE)) < 0){
                 printf("Client connect is broken!\n");
                 return 1;
             }
-            if(write(write_fd, client_buf, MSG_MAX_SIZE) == -1){
+            if(write(write_fd, client_buf, MSG_MAX_SIZE) <= 0){
                 printf("Websocket pipe is broken!\n");
                 return -1;
             }
         }
     }
+    char new_info[32] = "Game_new_";
+    char s[4];
+    sprintf(s, "%d", i);
+    strcat(new_info, s);
+    write(write_fd, new_info, 32);
     while(true){
         memset(server_buf, 0, MSG_MAX_SIZE);
         if((server_byte = (int)read(read_fd, server_buf, MSG_MAX_SIZE)) < 0){
             printf("Server pipe is broken!\n");
-            return -1;
+            return 1;
         }
         if(webSocket_send(fd, (unsigned char *)server_buf, (unsigned int)server_byte, false, WCT_TXTDATA) == -1){
             printf("Client connect is broken!\n");
-            return -1;
+            return 1;
         }
     }
+    return 1;
 }
 
 int webSocket_send(int fd, unsigned char *data, unsigned int dataLen, bool mod, Websocket_CommunicationType type) {
@@ -46,11 +52,12 @@ int webSocket_send(int fd, unsigned char *data, unsigned int dataLen, bool mod, 
 
     //printf("webSocket_send : %d\r\n", dataLen);
     //---------- websocket数据打包 ----------
-    webSocketPackage = (unsigned char *)calloc(1, sizeof(char)*(dataLen + 128));  memset(webSocketPackage, 0, (dataLen + 128));
-    retLen = (unsigned int)webSocket_enPackage(data, dataLen, webSocketPackage, (dataLen + 128), mod, type);
+    webSocketPackage = (unsigned char *)calloc(1, sizeof(char)*(dataLen + 4096));
+    memset(webSocketPackage, 0, (dataLen + 128));
+    retLen = (unsigned int)webSocket_enPackage(data, dataLen, webSocketPackage, (dataLen + 4096), mod, type);
     printf("webSocket_send : %d\r\n" , retLen);
-    for(i = 0; i < retLen; i ++)  printf("%.2X ", webSocketPackage[i]);
-    printf("\r\n");
+//    for(i = 0; i < retLen; i ++)  printf("%.2X ", webSocketPackage[i]);
+//    printf("\r\n");
     ret = (unsigned int)send(fd, webSocketPackage, retLen, MSG_NOSIGNAL);
     free(webSocketPackage);
     return ret;

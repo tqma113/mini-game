@@ -68,11 +68,11 @@ int deal_ws_request(int new_fd, struct sockaddr_in *client_addr, int shm_id, int
                             printf("Send WebSocket response failure!\n");
                             return -1;
                         }
-                        if(analyGame(req->uri, pipes[i].name, pipes[i].level)  == -1){
+                        if(analyGame(req->uri, pipes[i].name, &(pipes[i].level))  == -1){
                             printf("Game name analysis error\n");
                             return -1;
                         }
-                        switch (webSocket_session(new_fd, write_fd, read_fd)){
+                        switch (webSocket_session(new_fd, write_fd, read_fd, i)){
                             case 1:
                                 printf("WebSocket session is close!\n");
                                 return 1;
@@ -105,7 +105,7 @@ int _readline(char* allbuf,int level,char* linebuf){
     return -1;
 }
 
-int analyGame(char *uri, char *name, int level){
+int analyGame(char *uri, char *name, int *level){
     int index_N = 0;
     int index_L;
     char l[8];
@@ -116,9 +116,9 @@ int analyGame(char *uri, char *name, int level){
     while(uri[index_L] != '&'){
         index_L++;
     }
-    strncpy(name, uri + index_N + 1, (size_t)(index_L - index_N));
+    strncpy(name, uri + index_N + 1, (size_t)(index_L - index_N-1));
     strncpy(l, uri + index_L + 1, 4);
-    sprintf(l, "%d", level);
+    sscanf(l, "%d", level);
     return 1;
 }
 

@@ -17,14 +17,14 @@ int init_info(int *game_info){
 //        printf("Game server init file cannot been fond!:%s\n" , file);
 //        return -1;
 //    }
-    printf("Start init infor file\n");
-    if(read(file_fd, num ,2) <= 0){
-        printf("Game server init file cannot been read!\n");
-        fflush(stdout);
-        exit(1);
-    }
-    printf("finish init infor file\n");
-    printf("%s", num);
+//    printf("Start init infor file\n");
+//    if(read(file_fd, num ,2) <= 0){
+//        printf("Game server init file cannot been read!\n");
+//        fflush(stdout);
+//        exit(1);
+//    }
+//    printf("finish init infor file\n");
+//    printf("%s", num);
 //    int index = 0;
 //    while(fscanf(fp,"%d ",&game_info[index]))
 //    {

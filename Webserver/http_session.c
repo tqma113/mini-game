@@ -69,6 +69,7 @@ int deal_request(int new_fd, struct sockaddr_in *client_addr){
                                         return -1;
                                     }
                                     strcat(send_buf, file_buf);
+                                    send(new_fd, send_buf, SEND_BUF_SIZE, 0);
                                     break;
                                 case NDIR:
                                     strcpy(dir, ROOT_DIR);
@@ -85,6 +86,7 @@ int deal_request(int new_fd, struct sockaddr_in *client_addr){
                                         return -1;
                                     }
                                     strcat(send_buf, file_buf);
+                                    send(new_fd, send_buf, SEND_BUF_SIZE, 0);
                                     break;
                                 case NFILE:
                                     if(is_right_type(&(req->m_type), req->file) == -1){
@@ -92,26 +94,27 @@ int deal_request(int new_fd, struct sockaddr_in *client_addr){
                                         printf("HTTP request file has wrong type!");
                                         send_error_msg(req->state, send_buf);
                                         send(new_fd, send_buf, SEND_BUF_SIZE, 0);
-                                        return -1;
+                                        return 1;
                                     }
                                     if((file_byte = access_file(req, file_buf)) == -1){
                                         printf("File:%s cannot been access!", req->file);
                                         send_error_msg(req->state, send_buf);
                                         send(new_fd, send_buf, SEND_BUF_SIZE, 0);
-                                        return -1;
+                                        return 1;
                                     }
                                     if(send_normal_msg(req, send_buf, file_byte) == -1){
                                         printf("Sending message failed!\n");
-                                        return -1;
+                                        return 1;
                                     }
                                     memcpy(send_buf + strlen(send_buf), file_buf, sizeof(file_buf));
+                                    //send_file_msg(new_fd, send_buf, req->file);
+                                    send(new_fd, send_buf, SEND_BUF_SIZE, 0);
                                     break;
                                 default:
                                     printf("Deal request has failed!\n");
                                     return -1;
                                     break;
                             }
-                            send(new_fd, send_buf, SEND_BUF_SIZE, 0);
                             return 1;
                         }
                     }
@@ -121,6 +124,31 @@ int deal_request(int new_fd, struct sockaddr_in *client_addr){
                 }
         }
     }
+}
+int send_file_msg(int send_fd, char *sendbuf, char *file){
+    char filename[URI_MAX_SIZE] = "";
+    strcpy(filename, ROOT_DIR);
+    strcat(filename, file);
+    int fd = open(filename, O_RDONLY);
+
+    unsigned long st_size;
+    struct stat st;
+    fstat(fd, &st);
+    st_size = st.st_size;
+    char read_buf[FILE_BUF_SIZE + 1] = "";
+
+    unsigned long read_count = 0;
+    unsigned long read_c = 0;
+    send(send_fd, sendbuf, sizeof(sendbuf -1), 0);
+    while(read_count < st_size){
+        read_c = read(fd, read_buf, FILE_BUF_SIZE);
+        send(send_fd, read_buf, sizeof(read_buf), 0);
+        read_count += read_c;
+    }
+
+    send(send_fd, "\r\n\r\n", sizeof("\r\n\r\n"), 0);
+    printf("file %s size : %lu , read %ld\n", file, st_size, read_count);
+    return 1;
 }
 
 int is_http_request(char *request, struct http_request* req){
@@ -256,6 +284,9 @@ int is_right_type(enum MIMETYPE *filetype, char *filename){
     if(!strcmp(type_off, "txt") || !strcmp(type_off, "TXT")){
         *filetype = TXT;
     }
+    if(!strcmp(type_off, "flac") || !strcmp(type_off, "FLAC")){
+        *filetype = FLAC;
+    }
     return 0;
 }
 
@@ -300,13 +331,12 @@ int access_file(struct http_request *req, char *file_buf){
     }
     if((read_count = (int)read(fd, file_buf, FILE_BUF_SIZE)) == -1)
     {
-        printf("The file:%s cannot been access!", req->file);
+        printf("The file:%s cannot been access!\n", req->file);
         req->state = 403;
         close(fd);
         return -1;
     }
     printf("file ok\n");
-    printf("file %s size : %lu , read %d\n", req->file, st_size, read_count);
     close(fd);
     req->state = 200;
     return read_count;
@@ -367,13 +397,14 @@ char *type_to_str(enum MIMETYPE type){
     switch(type){
         case HTML: strcat(typ, "text/html"); break;
         case CSS: strcat(typ, "text/css"); break;
-        case JS: strcat(typ, "text/javascript"); break;
+        case JS: strcat(typ, "application/javascript"); break;
         case JPG: strcat(typ, "image/jpg"); break;
         case PNG: strcat(typ, "image/png"); break;
         case AVI: strcat(typ, "video/avi"); break;
         case MP3: strcat(typ, "audio/mp3"); break;
         case MP4: strcat(typ, "video/mp4"); break;
         case TXT: strcat(typ, "text/txt"); break;
+        case FLAC: strcat(typ, "vides/flac"); break;
         default: strcat(typ, "error"); break;
     }
     ty = typ;
