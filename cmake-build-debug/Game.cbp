@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Game"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/matianqi/Projects/mini-game/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/matianqi/Projects/mini-game/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/matianqi/Projects/mini-game/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Game">
+				<Option output="/Users/matianqi/Projects/mini-game/cmake-build-debug/Game" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/matianqi/Projects/mini-game/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 Game"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Game/fast">
+				<Option output="/Users/matianqi/Projects/mini-game/cmake-build-debug/Game" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/matianqi/Projects/mini-game/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 Game/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/matianqi/Projects/mini-game/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/matianqi/Projects/mini-game/GameServer/game_server.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/GameServer/game_server.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/GameServer/init_info.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/GameServer/init_info.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Webserver/http_session.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Webserver/http_session.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Webserver/init_log.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Webserver/init_log.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Webserver/init_web_server.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Webserver/init_web_server.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Webserver/webserver.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Webserver/webserver.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/base64.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/base64.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/init_websocket_server.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/init_websocket_server.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/init_ws_log.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/init_ws_log.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/session.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/session.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/sha1.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/sha1.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/websocket_server.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/websocket_server.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/websocket_session_init.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/Websockets/websocket_session_init.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/data_struct.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/game.c">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/game.h">
+			<Option target="Game"/>
+		</Unit>
+		<Unit filename="/Users/matianqi/Projects/mini-game/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
